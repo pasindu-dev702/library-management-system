@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Borrowed Books</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>My Borrowed Books</h1>
+    <a href="/">Back to Home</a>
+
+    <ul>
+        {% for item in borrowed_list %}
+            <li>
+                {{ item.title }} by {{ item.author }} - Due: {{ item.due_date.strftime('%Y-%m-%d') }}
+                <form action="/return_book/{{ item.record_id }}" method="POST" style="display:inline;">
+                    <button type="submit">Return</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

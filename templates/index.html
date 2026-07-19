@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Library Management System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <div class="navbar">
+        <h1>📚 Library Management System</h1>
+        <div>
+            {% if user_name %}
+                <a href="/my_books">My Borrowed Books</a>
+                <a href="/logout">Logout ({{ user_name }})</a>
+            {% else %}
+                <a href="/login">Login</a>
+                <a href="/register">Register</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="container">
+
+        {% if user_role == 'admin' %}
+        <h2>Add a New Book</h2>
+        <form action="/add_book" method="POST">
+            <label>Title:</label>
+            <input type="text" name="title" required><br><br>
+
+            <label>Author:</label>
+            <input type="text" name="author" required><br><br>
+
+            <label>Category:</label>
+            <input type="text" name="category"><br><br>
+
+            <label>Total Copies:</label>
+            <input type="number" name="total_copies" value="1"><br><br>
+
+            <button type="submit">Add Book</button>
+        </form>
+        {% endif %}
+
+        <h2>Search Books</h2>
+        <form action="/" method="GET">
+            <input type="text" name="search" placeholder="Search by title or author...">
+            <button type="submit">Search</button>
+        </form>
+
+        <h2>All Books</h2>
+        <ul class="book-grid">
+            {% for book in books %}
+                <li class="book-card">
+                    <h3>{{ book.title }}</h3>
+                    <p>by {{ book.author }} {% if book.category %}• {{ book.category }}{% endif %}</p>
+
+                    {% if book.available_copies > 0 %}
+                        <span class="badge available">{{ book.available_copies }}/{{ book.total_copies }} Available</span>
+                    {% else %}
+                        <span class="badge unavailable">Not Available</span>
+                    {% endif %}
+
+                    <div class="book-actions">
+                        {% if user_role == 'member' %}
+                            {% if book.available_copies > 0 %}
+                                <form action="/borrow_book/{{ book.id }}" method="POST">
+                                    <button type="submit">Borrow</button>
+                                </form>
+                            {% endif %}
+                        {% endif %}
+
+                        {% if user_role == 'admin' %}
+                            <form action="/delete_book/{{ book.id }}" method="POST">
+                                <button type="submit" class="btn-danger">Delete</button>
+                            </form>
+                            <a href="/edit_book/{{ book.id }}"><button type="button" class="btn-edit">Edit</button></a>
+                        {% endif %}
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+
+    </div>
+</body>
+</html>
