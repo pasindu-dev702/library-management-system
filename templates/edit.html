@@ -2,30 +2,33 @@
 <html>
 <head>
     <title>Edit Book</title>
-    <head>
-    <title>Edit Book</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-</head>
 <body>
-    <h1>Edit Book</h1>
+    <div class="navbar">
+        <h1>📚 Library Management System</h1>
+    </div>
 
-    <form action="/edit_book/{{ book.id }}" method="POST">
-        <label>Title:</label><br>
-        <input type="text" name="title" value="{{ book.title }}" required><br><br>
+    <div class="form-page">
+        <div>
+            <h1>Edit Book</h1>
+            <form action="/edit_book/{{ book.id }}" method="POST">
+                <label>Title:</label>
+                <input type="text" name="title" value="{{ book.title }}" required>
 
-        <label>Author:</label><br>
-        <input type="text" name="author" value="{{ book.author }}" required><br><br>
+                <label>Author:</label>
+                <input type="text" name="author" value="{{ book.author }}" required>
 
-        <label>Category:</label><br>
-        <input type="text" name="category" value="{{ book.category }}"><br><br>
+                <label>Category:</label>
+                <input type="text" name="category" value="{{ book.category }}">
 
-        <label>Total Copies:</label><br>
-        <input type="number" name="total_copies" value="{{ book.total_copies }}"><br><br>
+                <label>Total Copies:</label>
+                <input type="number" name="total_copies" value="{{ book.total_copies }}">
 
-        <button type="submit">Update Book</button>
-    </form>
-
-    <a href="/">Back to Home</a>
+                <button type="submit">Update Book</button>
+            </form>
+            <p><a href="/admin_dashboard">← Back to Dashboard</a></p>
+        </div>
+    </div>
 </body>
 </html>

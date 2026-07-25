@@ -13,32 +13,18 @@
                 <a href="/my_books">My Borrowed Books</a>
                 <a href="/logout">Logout ({{ user_name }})</a>
             {% else %}
-                <a href="/login">Login</a>
+                <a href="/">Login</a>
                 <a href="/register">Register</a>
             {% endif %}
         </div>
     </div>
 
+    <div class="hero">
+        <h2>Find Your Next Great Read</h2>
+        <p>Browse, search, and borrow from our collection</p>
+    </div>
+
     <div class="container">
-
-        {% if user_role == 'admin' %}
-        <h2>Add a New Book</h2>
-        <form action="/add_book" method="POST">
-            <label>Title:</label>
-            <input type="text" name="title" required><br><br>
-
-            <label>Author:</label>
-            <input type="text" name="author" required><br><br>
-
-            <label>Category:</label>
-            <input type="text" name="category"><br><br>
-
-            <label>Total Copies:</label>
-            <input type="number" name="total_copies" value="1"><br><br>
-
-            <button type="submit">Add Book</button>
-        </form>
-        {% endif %}
 
         <h2>Search Books</h2>
         <form action="/" method="GET">
@@ -63,16 +49,9 @@
                         {% if user_role == 'member' %}
                             {% if book.available_copies > 0 %}
                                 <form action="/borrow_book/{{ book.id }}" method="POST">
-                                    <button type="submit">Borrow</button>
+                                    <button type="submit">📖 Borrow</button>
                                 </form>
                             {% endif %}
-                        {% endif %}
-
-                        {% if user_role == 'admin' %}
-                            <form action="/delete_book/{{ book.id }}" method="POST">
-                                <button type="submit" class="btn-danger">Delete</button>
-                            </form>
-                            <a href="/edit_book/{{ book.id }}"><button type="button" class="btn-edit">Edit</button></a>
                         {% endif %}
                     </div>
                 </li>

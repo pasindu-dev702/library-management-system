@@ -5,18 +5,35 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>My Borrowed Books</h1>
-    <a href="/">Back to Home</a>
 
-    <ul>
-        {% for item in borrowed_list %}
-            <li>
-                {{ item.title }} by {{ item.author }} - Due: {{ item.due_date.strftime('%Y-%m-%d') }}
-                <form action="/return_book/{{ item.record_id }}" method="POST" style="display:inline;">
-                    <button type="submit">Return</button>
-                </form>
-            </li>
-        {% endfor %}
-    </ul>
+    <div class="navbar">
+        <h1>📚 Library Management System</h1>
+        <div>
+            <a href="/">Home</a>
+            <a href="/logout">Logout</a>
+        </div>
+    </div>
+
+    <div class="hero">
+        <h2>My Borrowed Books</h2>
+        <p>Track your due dates and return books here</p>
+    </div>
+
+    <div class="container">
+        <ul class="book-grid">
+            {% for item in borrowed_list %}
+                <li class="book-card">
+                    <h3>{{ item.title }}</h3>
+                    <p>by {{ item.author }}</p>
+                    <span class="badge available">Due: {{ item.due_date.strftime('%Y-%m-%d') }}</span>
+                    <div class="book-actions">
+                        <form action="/return_book/{{ item.record_id }}" method="POST">
+                            <button type="submit">↩️ Return</button>
+                        </form>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
 </body>
 </html>

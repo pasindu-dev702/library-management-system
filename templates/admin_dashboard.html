@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <div class="navbar">
+        <h1>📚 Admin Dashboard</h1>
+        <div>
+            <a href="/logout">Logout ({{ user_name }})</a>
+        </div>
+    </div>
+
+    <div class="hero">
+        <h2>Manage Your Library</h2>
+        <p>Add, edit, and organize your book collection</p>
+    </div>
+
+    <div class="container">
+
+        <h2>Add a New Book</h2>
+        <form action="/add_book" method="POST">
+            <label>Title:</label>
+            <input type="text" name="title" required>
+
+            <label>Author:</label>
+            <input type="text" name="author" required>
+
+            <label>Category:</label>
+            <input type="text" name="category">
+
+            <label>Total Copies:</label>
+            <input type="number" name="total_copies" value="1">
+
+            <button type="submit">Add Book</button>
+        </form>
+
+        <h2>All Books</h2>
+        <ul class="book-grid">
+            {% for book in books %}
+                <li class="book-card">
+                    <h3>{{ book.title }}</h3>
+                    <p>by {{ book.author }} {% if book.category %}• {{ book.category }}{% endif %}</p>
+
+                    {% if book.available_copies > 0 %}
+                        <span class="badge available">{{ book.available_copies }}/{{ book.total_copies }} Available</span>
+                    {% else %}
+                        <span class="badge unavailable">Not Available</span>
+                    {% endif %}
+
+                    <div class="book-actions">
+                        <form action="/delete_book/{{ book.id }}" method="POST">
+                            <button type="submit" class="btn-danger">🗑️ Delete</button>
+                        </form>
+                        <a href="/edit_book/{{ book.id }}"><button type="button" class="btn-edit">✏️ Edit</button></a>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+
+    </div>
+</body>
+</html>
